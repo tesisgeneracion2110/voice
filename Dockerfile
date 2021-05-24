@@ -27,15 +27,12 @@ RUN apt install -y ffmpeg
 
 RUN mkdir content
 
-RUN cd content && git clone https://github.com/tesisgeneracion2110/RealTimeSingingSynthesizer.git
-
-RUN cd content/RealTimeSingingSynthesizer && \
-    wget -O shallow.mid https://github.com/mathigatti/midi2voice/blob/master/inputs/shallow.mid?raw=true && \
-    wget -O shallow.txt https://raw.githubusercontent.com/mathigatti/midi2voice/master/inputs/shallow.txt && \
+RUN cd content && git clone https://github.com/tesisgeneracion2110/voice.git
+RUN cd content/voice && \
     pip3 install -r requirements.txt
 
 #Install libespeak-NG
-RUN cd /content/RealTimeSingingSynthesizer/synthesisSoftware/libespeak-NG/ && \
+RUN cd /content/voice/synthesisSoftware/libespeak-NG/ && \
 apt install -y make autoconf automake libtool pkg-config && \
 apt install -y gcc && \
 apt install -y libsonic-dev && \
@@ -46,15 +43,15 @@ apt install -y ruby-kramdown && \
 make
 
 #Install espeak-ng
-RUN ln -s /content/RealTimeSingingSynthesizer/synthesisSoftware/libespeak-NG/src/.libs/libespeak-ng.so /usr/lib/libespeak-ng.so && \
+RUN ln -s /content/voice/synthesisSoftware/libespeak-NG/src/.libs/libespeak-ng.so /usr/lib/libespeak-ng.so && \
 apt install -y libsamplerate-dev && \
 apt install -y libsndfile1-dev && \
-cd /content/RealTimeSingingSynthesizer/synthesisSoftware/Sinsy-NG-0.0.1 && \
+cd /content/voice/synthesisSoftware/Sinsy-NG-0.0.1 && \
 mkdir -p build && \
 cd build && \
 cmake .. && \
 make && \
-ln -s /content/RealTimeSingingSynthesizer/synthesisSoftware/Sinsy-NG-0.0.1/build/libsinsy.so /lib/libsinsy.so && \
-ln -s /content/RealTimeSingingSynthesizer/synthesisSoftware/libespeak-NG/src/.libs/libespeak-ng.so.1 /usr/lib/libespeak-ng.so.1 && \
-cp -r /content/RealTimeSingingSynthesizer/synthesisSoftware/libespeak-NG/espeak-ng-data /usr/share/
+ln -s /content/voice/synthesisSoftware/Sinsy-NG-0.0.1/build/libsinsy.so /lib/libsinsy.so && \
+ln -s /content/voice/synthesisSoftware/libespeak-NG/src/.libs/libespeak-ng.so.1 /usr/lib/libespeak-ng.so.1 && \
+cp -r /content/voice/synthesisSoftware/libespeak-NG/espeak-ng-data /usr/share/
 
